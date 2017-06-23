@@ -2,6 +2,10 @@
 
 if [ "$SLAVE" == "true" ]
 then
+  while ! nc -z rabbit-master 4369
+  do
+    sleep 1
+  done
   /usr/sbin/rabbitmq-server -detached
   rabbitmqctl stop_app
   rabbitmqctl join_cluster rabbit@rabbit-master
