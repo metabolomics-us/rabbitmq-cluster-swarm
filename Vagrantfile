@@ -1,3 +1,4 @@
+# used for swarm testing in a local machine
 Vagrant.configure("2") do |config|
 
   config.vm.define "master" do |master|
