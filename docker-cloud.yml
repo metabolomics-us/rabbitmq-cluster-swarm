@@ -3,8 +3,6 @@ services:
   rabbit-master:
     image: nicosingh/rabbitmq-cluster-swarm:latest
     hostname: rabbit-master
-    ports:
-      - "15672:15672"
     deploy:
       replicas: 1
       placement:
@@ -13,9 +11,11 @@ services:
       - RABBITMQ_ERLANG_COOKIE=dockerClusterCookie
       - RABBITMQ_DEFAULT_USER=rabbituser
       - RABBITMQ_DEFAULT_PASS=rabbitpass
-      - RABBITMQ_DEFAULT_VHOST=development
   rabbit-slave:
     image: nicosingh/rabbitmq-cluster-swarm:latest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     deploy:
       mode: global
       placement:
