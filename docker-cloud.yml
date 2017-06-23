@@ -1,9 +1,8 @@
-version "3"
-
+version: "3"
 services:
-
   rabbit-master:
     image: nicosingh/rabbitmq-cluster-swarm:latest
+    hostname: rabbit-master
     ports:
       - "15672:15672"
     deploy:
@@ -15,7 +14,6 @@ services:
       - RABBITMQ_DEFAULT_USER=rabbituser
       - RABBITMQ_DEFAULT_PASS=rabbitpass
       - RABBITMQ_DEFAULT_VHOST=development
-
   rabbit-slave:
     image: nicosingh/rabbitmq-cluster-swarm:latest
     deploy:
