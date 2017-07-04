@@ -3,6 +3,7 @@ services:
   rabbit-master:
     image: nicosingh/rabbitmq-cluster-swarm:latest
     ports:
+      - "5673:5672"
       - "15673:15672"
     hostname: rabbit-master
     deploy:
