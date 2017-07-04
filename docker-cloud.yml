@@ -2,6 +2,8 @@ version: "3"
 services:
   rabbit-master:
     image: nicosingh/rabbitmq-cluster-swarm:latest
+    ports:
+      - "15673:15672"
     hostname: rabbit-master
     deploy:
       replicas: 1
