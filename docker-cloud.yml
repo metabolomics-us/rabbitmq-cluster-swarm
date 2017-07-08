@@ -14,6 +14,7 @@ services:
       - RABBITMQ_ERLANG_COOKIE=dockerClusterCookie
       - RABBITMQ_DEFAULT_USER=rabbituser
       - RABBITMQ_DEFAULT_PASS=rabbitpass
+
   rabbit-slave:
     image: nicosingh/rabbitmq-cluster-swarm:latest
     ports:
@@ -26,3 +27,24 @@ services:
     environment:
       - SLAVE=true
       - RABBITMQ_ERLANG_COOKIE=dockerClusterCookie
+
+  rabbit-exporter:
+    image: kbudde/rabbitmq-exporter
+    ports:
+      - "9090:9090"
+    hostname: rabbit-exporter
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+    environment:
+      - "RABBIT_URL=http://rabbit-master:15672"
+      - RABBIT_USER=rabbituser
+      - RABBIT_PASSWORD=rabbitpass
+
+  grafana:
+    image: grafana/grafana:latest
+    deploy:
+      replicas: 1
+    ports:
+      - "3000:3000"
