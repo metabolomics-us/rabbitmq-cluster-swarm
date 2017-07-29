@@ -12,5 +12,6 @@ before_script:
 build:
   stage: build
   script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker build -t registry.gitlab.com/nicosingh/rabbitmq-cluster-swarm .
     - docker push registry.gitlab.com/nicosingh/rabbitmq-cluster-swarm
