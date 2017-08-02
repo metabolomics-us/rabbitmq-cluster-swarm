@@ -1,7 +1,7 @@
 image: docker:latest
 
 before_script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - 'which ssh-agent || ( apk update && apk add openssh )'
   - eval $(ssh-agent -s)
   - ssh-add <(echo "$CMB_INRIA_CL_SSH_PRIVATE_KEY")
   - mkdir -p ~/.ssh
