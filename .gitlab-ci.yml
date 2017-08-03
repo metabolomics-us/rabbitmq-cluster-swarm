@@ -3,7 +3,7 @@ image: docker:latest
 before_script:
   - 'which ssh-agent || ( apk update && apk add openssh )'
   - eval $(ssh-agent -s)
-  - ssh-add <(echo "$CMB_INRIA_CL_SSH_PRIVATE_KEY")
+  - echo "$CMB_INRIA_CL_SSH_PRIVATE_KEY" | ssh-add -
   - mkdir -p ~/.ssh
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 
