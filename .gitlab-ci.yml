@@ -32,7 +32,7 @@ build:
 scp:
   stage: release
   script:
-    -scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
+    - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
 
 push:
   stage: deploy
