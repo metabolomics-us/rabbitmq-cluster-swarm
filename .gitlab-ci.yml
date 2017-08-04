@@ -30,11 +30,16 @@ build:
     - docker push $IMAGE_NAME_TEST
 
 scp:
-  stage: release
+  stage: test
   script:
     - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
-    
+
 scp2:
+  stage: test
+  script:
+    - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
+
+scp3:
   stage: release
   script:
     - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
