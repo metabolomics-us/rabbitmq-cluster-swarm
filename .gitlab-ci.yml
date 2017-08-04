@@ -31,11 +31,13 @@ build:
 
 scp:
   stage: test
+  environment: production
   script:
     - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
 
 scp2:
   stage: test
+  environment: release
   script:
     - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
 
