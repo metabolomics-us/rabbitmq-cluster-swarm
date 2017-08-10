@@ -44,7 +44,7 @@ services:
       - TZ="America/Santiago"
 
   prometheus:
-    image: registry.gitlab.com/nicosingh/prometheus:latest
+    image: registry.gitlab.com/nicosingh/rabbitmq-prometheus:latest
     deploy:
       replicas: 1
       placement:
