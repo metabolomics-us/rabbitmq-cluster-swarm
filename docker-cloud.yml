@@ -1,7 +1,7 @@
 version: "3"
 services:
   rabbit-master:
-    image: nicosingh/rabbitmq-cluster-swarm:latest
+    image: registry.gitlab.com/nicosingh/rabbitmq-cluster-swarm:latest
     ports:
       - "5673:5672"
       - "15673:15672"
@@ -16,7 +16,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=rabbitpass
 
   rabbit-slave:
-    image: nicosingh/rabbitmq-cluster-swarm:latest
+    image: registry.gitlab.com/nicosingh/rabbitmq-cluster-swarm:latest
     ports:
       - "5672:5672"
       - "15672:15672"
