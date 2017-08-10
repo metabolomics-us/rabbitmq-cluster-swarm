@@ -1,54 +1,30 @@
 image: docker:latest
 
-before_script:
-  - 'which ssh-agent || ( apk update && apk add openssh )'
-  - eval $(ssh-agent -s)
-  - echo "$CMB_INRIA_CL_SSH_PRIVATE_KEY" | ssh-add -
-  - mkdir -p ~/.ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-
 variables:
   DOCKER_DRIVER: overlay
   DOCKER_REGISTRY: registry.gitlab.com
-  IMAGE_NAME_TEST: $DOCKER_REGISTRY/nicosingh/rabbitmq-cluster-swarm:$CI_COMMIT_REF_NAME
-  IMAGE_NAME_RELEASE: $DOCKER_REGISTRY/nicosingh/rabbitmq-cluster-swarm:latest
+  IMAGE_NAME: $DOCKER_REGISTRY/nicosingh/rabbitmq-cluster-swarm
 
 services:
   - docker:dind
 
 stages:
   - build
-  - test
-  - release
-  - deploy
 
-build:
+branch:
   stage: build
+  except:
+    - master
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $DOCKER_REGISTRY
-    - docker build -t $IMAGE_NAME_TEST .
-    - docker push $IMAGE_NAME_TEST
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_REF_NAME .
+    - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
 
-scp:
-  stage: test
-  environment: production
-  script:
-    - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
-
-scp2:
-  stage: test
-  environment: release
-  script:
-    - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
-
-scp3:
-  stage: release
-  script:
-    - scp docker-cloud.yml cmb@cmb.inria.cl:/tmp/docker-cloud.yml
-
-push:
-  stage: deploy
+master:
+  stage: build
+  only:
+    - master
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $DOCKER_REGISTRY
-    - docker build -t $IMAGE_NAME_RELEASE .
-    - docker push $IMAGE_NAME_RELEASE
+    - docker build -t $IMAGE_NAME:latest .
+    - docker push $IMAGE_NAME:latest
