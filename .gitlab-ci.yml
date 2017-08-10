@@ -3,28 +3,47 @@ image: docker:latest
 variables:
   DOCKER_DRIVER: overlay
   DOCKER_REGISTRY: registry.gitlab.com
-  IMAGE_NAME: $DOCKER_REGISTRY/nicosingh/rabbitmq-cluster-swarm
+  IMAGE_RABBIT: $DOCKER_REGISTRY/nicosingh/rabbitmq-cluster-swarm
+  IMAGE_PROMETHEUS: $DOCKER_REGISTRY/nicosingh/prometheus
 
 services:
   - docker:dind
 
 stages:
-  - build
+  - build-docker
 
-branch:
-  stage: build
+branch_rabbitmq-cluster-swarm:
+  stage: build-docker
   except:
     - master
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $DOCKER_REGISTRY
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_REF_NAME .
-    - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
+    - docker build -t $IMAGE_RABBIT:$CI_COMMIT_REF_NAME rabbitmq-cluster-swarm/
+    - docker push $IMAGE_RABBIT:$CI_COMMIT_REF_NAME
 
-master:
-  stage: build
+master_rabbitmq-cluster-swarm:
+  stage: build-docker
   only:
     - master
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $DOCKER_REGISTRY
-    - docker build -t $IMAGE_NAME:latest .
-    - docker push $IMAGE_NAME:latest
+    - docker build -t $IMAGE_RABBIT:latest rabbitmq-cluster-swarm/
+    - docker push $IMAGE_RABBIT:latest
+
+branch_prometheus:
+  stage: build-docker
+  except:
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $DOCKER_REGISTRY
+    - docker build -t $IMAGE_PROMETHEUS:$CI_COMMIT_REF_NAME prometheus/
+    - docker push $IMAGE_PROMETHEUS:$CI_COMMIT_REF_NAME
+
+master_prometheus:
+  stage: build-docker
+  only:
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $DOCKER_REGISTRY
+    - docker build -t $IMAGE_PROMETHEUS:$CI_COMMIT_REF_NAME prometheus/
+    - docker push $IMAGE_PROMETHEUS:$CI_COMMIT_REF_NAME

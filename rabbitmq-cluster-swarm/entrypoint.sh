@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$SLAVE" == "true" ]
+if [[ "$SLAVE" == "true" ]]
 then
   while ! nc -z rabbit-master 4369
   do
