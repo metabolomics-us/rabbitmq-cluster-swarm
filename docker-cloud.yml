@@ -15,7 +15,6 @@ services:
       - RABBITMQ_DEFAULT_USER=rabbituser
       - RABBITMQ_DEFAULT_PASS=rabbitpass
       - RABBITMQ_DEFAULT_VHOST=/
-      - TZ="America/Santiago"
 
   rabbit-slave:
     image: registry.gitlab.com/nicosingh/rabbitmq-cluster-swarm:latest
@@ -29,7 +28,6 @@ services:
     environment:
       - SLAVE=true
       - RABBITMQ_ERLANG_COOKIE=dockerClusterCookie
-      - TZ="America/Santiago"
 
   rabbit-exporter:
     image: kbudde/rabbitmq-exporter
@@ -41,9 +39,8 @@ services:
       - "RABBIT_URL=http://rabbit-master:15672"
       - RABBIT_USER=rabbituser
       - RABBIT_PASSWORD=rabbitpass
-      - TZ="America/Santiago"
 
-  prometheus:
+  rabbitmq-prometheus:
     image: registry.gitlab.com/nicosingh/rabbitmq-prometheus:latest
     deploy:
       replicas: 1
@@ -58,5 +55,3 @@ services:
       replicas: 1
     ports:
       - "3000:3000"
-    environment:
-      - TZ="America/Santiago"
