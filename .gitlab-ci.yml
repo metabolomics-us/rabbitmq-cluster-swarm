@@ -3,8 +3,9 @@ image: docker:latest
 variables:
   DOCKER_DRIVER: overlay
   GITLAB_REGISTRY: registry.gitlab.com
+  GITLAB_IMAGE_NAME: $GITLAB_REGISTRY/nicosingh/rabbitmq-cluster-swarm
   DOCKERHUB_REGISTRY: docker.io
-  IMAGE_NAME: $DOCKER_REGISTRY/nicosingh/rabbitmq-cluster-swarm
+  DOCKERHUB_IMAGE_NAME: nicosingh/rabbitmq-cluster-swarm
 
 services:
   - docker:dind
@@ -19,7 +20,7 @@ branch-gitlab:
     - master
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_REF_NAME .
+    - docker build -t $GITLAB_IMAGE_NAME:$CI_COMMIT_REF_NAME .
     - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
 
 branch-docker_hub:
@@ -28,7 +29,7 @@ branch-docker_hub:
     - master
   script:
     - docker login -u nicosingh -p $DOCKERHUB_NICOSINGH_PASSWORD $DOCKERHUB_REGISTRY
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_REF_NAME .
+    - docker build -t $DOCKERHUB_IMAGE_NAME:$CI_COMMIT_REF_NAME .
     - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
 
 master-gitlab:
@@ -37,7 +38,7 @@ master-gitlab:
     - master
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY
-    - docker build -t $IMAGE_NAME:latest .
+    - docker build -t $GITLAB_IMAGE_NAME:latest .
     - docker push $IMAGE_NAME:latest
 
 master-docker_hub:
@@ -46,5 +47,5 @@ master-docker_hub:
     - master
   script:
     - docker login -u nicosingh -p $DOCKERHUB_NICOSINGH_PASSWORD $DOCKERHUB_REGISTRY
-    - docker build -t $IMAGE_NAME:latest .
+    - docker build -t $DOCKERHUB_IMAGE_NAME:latest .
     - docker push $IMAGE_NAME:latest
