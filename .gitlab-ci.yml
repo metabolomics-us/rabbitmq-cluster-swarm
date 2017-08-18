@@ -21,7 +21,7 @@ branch-gitlab:
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY
     - docker build -t $GITLAB_IMAGE_NAME:$CI_COMMIT_REF_NAME .
-    - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
+    - docker push $GITLAB_IMAGE_NAME:$CI_COMMIT_REF_NAME
 
 branch-docker_hub:
   stage: build-branch
@@ -30,7 +30,7 @@ branch-docker_hub:
   script:
     - docker login -u nicosingh -p $DOCKERHUB_NICOSINGH_PASSWORD $DOCKERHUB_REGISTRY
     - docker build -t $DOCKERHUB_IMAGE_NAME:$CI_COMMIT_REF_NAME .
-    - docker push $IMAGE_NAME:$CI_COMMIT_REF_NAME
+    - docker push $DOCKERHUB_IMAGE_NAME:$CI_COMMIT_REF_NAME
 
 master-gitlab:
   stage: build-master
@@ -39,7 +39,7 @@ master-gitlab:
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY
     - docker build -t $GITLAB_IMAGE_NAME:latest .
-    - docker push $IMAGE_NAME:latest
+    - docker push $GITLAB_IMAGE_NAME:latest
 
 master-docker_hub:
   stage: build-master
@@ -48,4 +48,4 @@ master-docker_hub:
   script:
     - docker login -u nicosingh -p $DOCKERHUB_NICOSINGH_PASSWORD $DOCKERHUB_REGISTRY
     - docker build -t $DOCKERHUB_IMAGE_NAME:latest .
-    - docker push $IMAGE_NAME:latest
+    - docker push $DOCKERHUB_IMAGE_NAME:latest
