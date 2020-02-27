@@ -12,7 +12,7 @@ then
   rabbitmqctl start_app
 else
   rabbitmq-server -detached
-  sleep 5
+  sleep 60
   rabbitmqctl add_user $RABBITMQ_DEFAULT_USER $RABBITMQ_DEFAULT_PASS
   rabbitmqctl set_user_tags $RABBITMQ_DEFAULT_USER administrator
   rabbitmqctl set_permissions $RABBITMQ_DEFAULT_USER ".*" ".*" ".*"
