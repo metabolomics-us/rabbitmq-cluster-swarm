@@ -1,8 +1,9 @@
-FROM rabbitmq:3.6.10-management
+FROM rabbitmq:3.7-management
 
 MAINTAINER Nicolas Singh <nicolas.singh@gmail.com>
 
 RUN apt-get update && \
+  apt-get install apt-transport-https ca-certificates -y && \
   apt-get install netcat -y && \
   rm -rf /var/lib/apt/lists/*
 
